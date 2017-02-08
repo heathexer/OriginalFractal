@@ -1,7 +1,7 @@
-ArrayList<Line> lines = new ArrayList<Line>();
-int level, centerX, centerY;
+import java.util.List;
+List<Line> lines;
+int level, curLevel, centerX, centerY;
 float scale;
-import java.util.Collections;
 
 void setup() {
   noLoop();
@@ -10,8 +10,8 @@ void setup() {
   centerY = 400;
   scale = .5;
   noFill();
-  level = 15;
-  fractal(level);
+  lines = new ArrayList<Line>();
+  lines.add(new Line(0, 0, 10, 0));
 }
 
 void draw() {
@@ -19,27 +19,25 @@ void draw() {
   translate(centerX, centerY);
   scale(scale);
   background(255);
+  fractal(level);
   for(Line l : lines) l.show();
   popMatrix();
 }
 
 void keyPressed() {
-  if(key == 'q') {
+  if(key == 'q' && level > 1) {
     level --;
-    fractal(level);
   }
   if(key == 'e') {
     level ++;
-    fractal(level);
   }
-  if(key == 'w') centerY += 50;
-  if(key == 'a') centerX += 50;
-  if(key == 's') centerY -= 50;
-  if(key == 'd') centerX -= 50;
-  if(key == 'r') scale += .05;
-  if(key == 'f' && scale > 0) scale -= .05;
+  if(key == 'w') centerY += 5*1/scale;
+  if(key == 'a') centerX += 5*1/scale;
+  if(key == 's') centerY -= 5*1/scale;
+  if(key == 'd') centerX -= 5*1/scale;
+  if(key == 'r') scale *= 1.05;
+  if(key == 'f' && scale > 0) scale *= .95;
   redraw();
-
 }
 
 class Line {
@@ -64,16 +62,23 @@ class Line {
   }
 }
 
-void fractal(int level) {
-  lines = new ArrayList<Line>();
-  lines.add(new Line(0, 0, 10, 0));
-  for(int i = 0; i < level-1; i++) {
+void fractal(int t) {
+  if(t > curLevel) {
     ArrayList<Line> newLines = new ArrayList<Line>();
-    for (Line l : lines) {
-      l.shift();
-      newLines.add(l.rotate());
-    }
-    Collections.reverse(newLines);
-    lines.addAll(newLines);
+    for (Line l : lines) newLines.add(l.rotate());
+    lines.addAll(reverse(newLines));
+  } else
+  if(t < curLevel) {
+    lines = lines.subList(0, lines.size()/2);
   }
+  for(Line l : lines) l.shift();
+  curLevel = t;
+}
+
+ArrayList reverse(ArrayList n) {
+  ArrayList nlist = new ArrayList();
+  for(int i = n.size()-1; i >=0; i--) {
+    nlist.add(n.get(i));
+  }
+  return nlist;
 }
