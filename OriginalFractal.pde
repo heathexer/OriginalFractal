@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.ArrayList;
 List<Line> lines;
 int level, curLevel, centerX, centerY;
 float scaly;
