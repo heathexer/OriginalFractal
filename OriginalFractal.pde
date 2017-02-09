@@ -1,14 +1,14 @@
 import java.util.List;
 List<Line> lines;
 int level, curLevel, centerX, centerY;
-float scale;
+float scaly;
 
 void setup() {
   noLoop();
   size(800,800);
   centerX = 400;
   centerY = 400;
-  scale = .5;
+  scaly = .5;
   noFill();
   lines = new ArrayList<Line>();
   lines.add(new Line(0, 0, 10, 0));
@@ -17,7 +17,7 @@ void setup() {
 void draw() {
   pushMatrix();
   translate(centerX, centerY);
-  scale(scale);
+  scale(scaly);
   background(255);
   fractal(level);
   for(Line l : lines) l.show();
@@ -25,18 +25,18 @@ void draw() {
 }
 
 void keyPressed() {
-  if(key == 'q' && level > 1) {
+  if(key == 'q' && level > 0 && level == curLevel) {
     level --;
   }
-  if(key == 'e') {
+  if(key == 'e' && level == curLevel) {
     level ++;
   }
-  if(key == 'w') centerY += 5*1/scale;
-  if(key == 'a') centerX += 5*1/scale;
-  if(key == 's') centerY -= 5*1/scale;
-  if(key == 'd') centerX -= 5*1/scale;
-  if(key == 'r') scale *= 1.05;
-  if(key == 'f' && scale > 0) scale *= .95;
+  if(key == 'w') centerY += 5*1/scaly;
+  if(key == 'a') centerX += 5*1/scaly;
+  if(key == 's') centerY -= 5*1/scaly;
+  if(key == 'd') centerX -= 5*1/scaly;
+  if(key == 'r') scaly *= 1.05;
+  if(key == 'f' && scaly > 0) scaly *= .95;
   redraw();
 }
 
