@@ -1,6 +1,4 @@
-import java.util.List;
-import java.util.ArrayList;
-List<Line> lines;
+ArrayList<Line> lines;
 int level, curLevel, centerX, centerY;
 float scaly;
 
@@ -36,6 +34,10 @@ void keyPressed() {
   if(key == 'a') centerX += 5*1/scaly;
   if(key == 's') centerY -= 5*1/scaly;
   if(key == 'd') centerX -= 5*1/scaly;
+  if(key == ' ') {
+    centerX = 400;
+    centerY = 400;
+  }
   if(key == 'r') scaly *= 1.05;
   if(key == 'f' && scaly > 0) scaly *= .95;
   redraw();
@@ -70,7 +72,7 @@ void fractal(int t) {
     lines.addAll(reverse(newLines));
   } else
   if(t < curLevel) {
-    lines = lines.subList(0, lines.size()/2);
+    lines = subList(lines, 0, lines.size()/2);
   }
   for(Line l : lines) l.shift();
   curLevel = t;
@@ -82,4 +84,10 @@ ArrayList reverse(ArrayList n) {
     nlist.add(n.get(i));
   }
   return nlist;
+}
+
+ArrayList subList (ArrayList n, int from, int to) {
+  ArrayList res = new ArrayList();
+  for(int i = from; i < to; i++) res.add(n.get(i));
+  return res;
 }
