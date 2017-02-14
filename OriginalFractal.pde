@@ -4,9 +4,9 @@ float scaly;
 
 void setup() {
   noLoop();
-  size(800,800);
-  centerX = 400;
-  centerY = 400;
+  size(1000,800);
+  centerX = width/2;
+  centerY = height/2;
   scaly = .5;
   noFill();
   lines = new ArrayList<Line>();
@@ -35,8 +35,8 @@ void keyPressed() {
   if(key == 's') centerY -= 5*1/scaly;
   if(key == 'd') centerX -= 5*1/scaly;
   if(key == ' ') {
-    centerX = 400;
-    centerY = 400;
+    centerX = width/2;
+    centerY = height/2;
   }
   if(key == 'r') scaly *= 1.05;
   if(key == 'f' && scaly > 0) scaly *= .95;
